@@ -1,0 +1,39 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC Database connection settings -->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/configurations?useSSL=false</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">Aa1234567890$</property>
+        <!-- JDBC connection pool settings ... using built-in test pool -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <!-- Select our SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <!-- Echo the SQL to stdout -->
+        <property name="show_sql">true</property>
+        <!-- Set the current session context -->
+        <property name="current_session_context_class">thread</property>
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">validate</property>
+
+        <mapping class="com.configurator_pc.server.model.AttributeType"></mapping>
+        <mapping class="com.configurator_pc.server.model.Component"></mapping>
+        <mapping class="com.configurator_pc.server.model.ComponentAttribute"></mapping>
+        <mapping class="com.configurator_pc.server.model.ComponentOfConfiguration"></mapping>
+        <mapping class="com.configurator_pc.server.model.ComponentOfStore"></mapping>
+        <mapping class="com.configurator_pc.server.model.ComponentType"></mapping>
+        <mapping class="com.configurator_pc.server.model.Configuration"></mapping>
+        <mapping class="com.configurator_pc.server.model.Currency"></mapping>
+        <mapping class="com.configurator_pc.server.model.Price"></mapping>
+        <mapping class="com.configurator_pc.server.model.Store"></mapping>
+        <mapping class="com.configurator_pc.server.model.User"></mapping>
+        <mapping class="com.configurator_pc.server.model.UserConfiguration"></mapping>
+
+    </session-factory>
+</hibernate-configuration>

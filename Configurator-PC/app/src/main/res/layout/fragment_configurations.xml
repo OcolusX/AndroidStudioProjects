@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.configurations.ConfigurationsFragment" >
+    tools:context=".ui.configurations.ConfigurationsFragment">
+
+    <ScrollView
+        android:id="@+id/configurations_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/configurations_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addConfigurationButton"
@@ -12,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="90dp"
         android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
         android:src="@drawable/ic_add_configuration_button"
         android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
