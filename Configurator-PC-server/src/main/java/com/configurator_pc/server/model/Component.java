@@ -10,6 +10,7 @@ import java.util.Objects;
 @Table(name = "components")
 public class Component {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "type_id")
@@ -21,8 +22,7 @@ public class Component {
     public Component() {
     }
 
-    public Component(int id, int typeId, String name) {
-        this.id = id;
+    public Component(int typeId, String name) {
         this.typeId = typeId;
         this.name = name;
     }

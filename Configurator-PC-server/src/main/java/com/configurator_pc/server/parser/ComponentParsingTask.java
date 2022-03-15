@@ -1,6 +1,7 @@
-package com.configurator_pc.server.parcer;
+package com.configurator_pc.server.parser;
 
 import com.configurator_pc.server.model.*;
+import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,36 +9,42 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.persistence.LockModeType;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComponentParser implements Runnable {
+public abstract class ComponentParsingTask implements Runnable {
 
-    private final String url;
-    private final int componentId;
-    private final int componentTypeId;
+    // Поля, заполняемы методом parseComponent для последующего занесения их в базу данных методом save
+    protected Component component;
+    protected final List<AttributeType> attributeTypes = new ArrayList<>();
+    protected final List<ComponentAttribute> componentAttributes = new ArrayList<>();
+    protected final List<Store> stores = new ArrayList<>();
+    protected final List<ComponentOfStore> componentOfStores = new ArrayList<>();
+    protected final List<Price> prices = new ArrayList<>();
 
-    private Component component;
-    private final List<AttributeType> attributeTypes = new ArrayList<>();
-    private final List<ComponentAttribute> componentAttributes = new ArrayList<>();
-    private final List<Store> stores = new ArrayList<>();
-    private final List<ComponentOfStore> componentOfStores = new ArrayList<>();
-    private final List<Price> prices = new ArrayList<>();
+    protected final String url;           // Ссылка на страницу с компонентом
+    protected final int productId;        // id компонента в магазине
 
-    private final static StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+    // Используется для работы с БД
+    private final static SessionFactory sessionFactory;
+    static {
+        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
+        sessionFactory = metadata.buildSessionFactory();
+    }
 
-    public ComponentParser(String url, int componentId, int componentTypeId) {
+    public ComponentParsingTask(String url, int productId, int componentTypeId) {
+        this.component = new Component(componentTypeId, "");
         this.url = url;
-        this.componentId = componentId;
-        this.componentTypeId = componentTypeId;
+        this.productId = productId;
     }
 
     @Override
@@ -46,70 +53,22 @@ public class ComponentParser implements Runnable {
         save();
     }
 
-    private void parseComponent() {
-        try {
-            Document document = connect(url);
-            if (document == null) {
-                throw new NullPointerException();
-            }
+    // Парсит страницу с товаром и заполняет соответствующие данные о товаре
+    protected abstract void parseComponent();
 
-            String name = document.select("#top-page-title > h1").text();
-            this.component = new Component(componentId, componentTypeId, name);
-
-            Elements elements = document.select("#item_bl_" + componentId + " > div:nth-child(2) > div:nth-child(2) > div > div");
-            for (Element element : elements) {
-                String[] attr = element.text().split(":");
-                attributeTypes.add(new AttributeType(attr[0]));
-                componentAttributes.add(new ComponentAttribute(attr[1]));
-            }
-
-            elements = document.select("#item_sm_wb_" + componentId + " > table > tbody > tr");
-            for (Element element : elements) {
-                for (Element el : element.children()) {
-                    String className = el.className();
-                    if (className.contains("model-shop-name")) {
-                        Element e = el.select("> div > a").get(0);
-                        String ref = e.attr("onmouseover").split("\"")[1];
-
-                        Document refDocument = connect(ref);
-                        if (refDocument == null) {
-                            throw new NullPointerException();
-                        }
-
-                        ref = refDocument.select("div > a").attr("href");
-                        if (ref.equals("") || ref.equals("#") || ref.equals("/")) {
-                            ref = refDocument.location();
-                        }
-
-                        stores.add(new Store(e.select("> u").text()));
-                        componentOfStores.add(new ComponentOfStore(ref));
-
-                        el = el.nextElementSibling();
-                        String stringPrice = el.select("> a").text();
-                        stringPrice = stringPrice.substring(0, stringPrice.length() - 2).replaceAll("\\s", "");
-                        prices.add(new Price(Float.parseFloat(stringPrice), 1, new Date(System.currentTimeMillis())));
-                    }
-                }
-
-            }
-        } catch (NullPointerException exception) {
-            exception.printStackTrace();
-        }
-    }
-
+    // Сохраняет заполненные в процессе работы метода parseComponent данные о товаре в базу данных
     private void save() {
-        Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
-        SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
 
-        Component component = session.get(Component.class, componentId);
-        if (component == null) {
-            session.persist(this.component);
-        } else if (!component.equals(this.component)) {
-            session.update(component);
-        }
+        // Сначала сохраняем в БД компонент, если его ещё нет в БД
+        Component component = (Component) session.createQuery("from " + Component.class.getName() + " where type_id = :typeId AND name = :name")
+                .setParameter("typeId", this.component.getTypeId())
+                .setParameter("name", this.component.getName())
+                .uniqueResult();
+        int componentId = component == null ? (int) session.save(this.component) : component.getId();
 
+        // Затем сохраняем (или обновляем) в БД списки атрибутов
         for (int i = 0; i < attributeTypes.size(); i++) {
             AttributeType attributeType = attributeTypes.get(i);
             AttributeType dbAttributeType = (AttributeType) session.createQuery("from " + AttributeType.class.getName() + " where name = :attributeName")
@@ -121,6 +80,7 @@ public class ComponentParser implements Runnable {
                 componentAttribute.setComponentId(componentId);
                 componentAttribute.setAttributeId((int) session.save(attributeType));
                 session.persist(componentAttribute);
+                session.flush();
             } else {
                 ComponentAttribute componentAttribute = (ComponentAttribute) session.createQuery("from " + ComponentAttribute.class.getName() + " where component_id = :componentId and attribute_id = :attributeId")
                         .setParameter("componentId", componentId)
@@ -131,11 +91,13 @@ public class ComponentParser implements Runnable {
                     componentAttribute.setComponentId(componentId);
                     componentAttribute.setAttributeId(dbAttributeType.getId());
                     session.persist(componentAttribute);
+                    session.flush();
                 } else {
                     String value = componentAttributes.get(i).getValue();
                     if (!componentAttribute.getValue().equals(value)) {
                         componentAttribute.setValue(value);
                         session.update(componentAttribute);
+                        session.flush();
                     }
                 }
             }
@@ -154,6 +116,8 @@ public class ComponentParser implements Runnable {
                 Price price = prices.get(i);
                 price.setComponentOfStoreId((int) session.save(componentOfStore));
                 session.persist(price);
+
+                session.flush();
             } else {
                 ComponentOfStore componentOfStore = (ComponentOfStore) session.createQuery("from " + ComponentOfStore.class.getName() + " where component_id = :componentId and store_id = :storeId")
                         .setParameter("componentId", componentId)
@@ -174,22 +138,11 @@ public class ComponentParser implements Runnable {
                 Price price = prices.get(i);
                 price.setComponentOfStoreId(componentOfStore.getId());
                 session.persist(price);
+                session.flush();
             }
         }
 
         transaction.commit();
     }
 
-    private Document connect(String url) {
-        try {
-            Thread.sleep(150);
-            return Jsoup.connect(url)
-                    .userAgent("Chrome/4.0.249.0 Safari/532.5")
-                    .referrer("https://www.google.com")
-                    .get();
-        } catch (IOException | InterruptedException exception) {
-            exception.printStackTrace();
-            return null;
-        }
-    }
 }

@@ -1,11 +1,14 @@
 package com.configurator_pc.server;
 
 import com.configurator_pc.server.model.Component;
-import com.configurator_pc.server.parcer.EkatalogParser;
+import com.configurator_pc.server.parser.Parser;
+import com.configurator_pc.server.parser.hardprice.HardpriceParser;
 import com.configurator_pc.server.repository.ComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -25,5 +28,14 @@ public class DefaultController {
         model.addAttribute("count", componentList.size());
 
         return "index";
+    }
+
+    @PostMapping("/parse")
+    public String parse(@ModelAttribute("password") String password, Model model) {
+        if (password.equals("12345")) {
+            Parser parser = new HardpriceParser();
+            parser.parse();
+        }
+        return "parse";
     }
 }

@@ -6,5 +6,14 @@
 </head>
 <body>
     <h1>Components(<span th:text="${count}">0</span>)</h1>
+    <div>
+        <form method="POST" action="/parse">
+            <h2>Start parsing!</h2>
+            <div>
+                <input name="password" type="password" placeholder="Password"/>
+                <button type="submit">Parse!</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
