@@ -1,27 +1,32 @@
-package com.configurator_pc.server.parser.hardprice;
+package com.configurator_pc.server.parser.hardpriceAPI;
 
 import com.configurator_pc.server.model.*;
 import com.configurator_pc.server.parser.ComponentParsingTask;
 import com.configurator_pc.server.parser.ParserThreadPool;
+import org.json.simple.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
-public final class HardpriceComponentParsingTask extends ComponentParsingTask {
+public class HardpriceAPIComponentParsingTask extends ComponentParsingTask {
 
     private final String url;
-    public HardpriceComponentParsingTask(String url, int componentTypeId) {
+
+    public HardpriceAPIComponentParsingTask(String url, int componentTypeId, String vendor) {
         super(componentTypeId);
         this.url = url;
+        this.attributeTypes.add(new AttributeType("Производитель"));
+        this.componentAttributes.add(new ComponentAttribute(vendor));
     }
 
     @Override
     protected void parseComponent() {
         try {
-            Document document = ParserThreadPool.connect(this.url).get();
+            Document document = ParserThreadPool.connect(url).get();
 
             Elements elements = document.select("body > div:nth-child(1) > div > div:nth-child(2) > div.row.product-row > div.col-md-8.col-sm-12");
             this.component.setName(elements.select("> h1").text());
@@ -33,7 +38,8 @@ public final class HardpriceComponentParsingTask extends ComponentParsingTask {
                     this.stores.add(new Store(element.text()));
                     String url = "https://hardprice.ru/" + element.attr("href");
                     this.componentOfStores.add(new ComponentOfStore(url));
-                    float price = Float.parseFloat(eChildren.get(2).child(0).text().replaceAll("[^0-9]", ""));
+                    String strPrice = eChildren.get(2).child(0).text().replaceAll("[^0-9]", "");
+                    float price = strPrice.isEmpty() ? -1 : Float.parseFloat(strPrice);
                     this.prices.add(new Price(price, 1, new Date(System.currentTimeMillis())));
                 }
             }
@@ -47,7 +53,6 @@ public final class HardpriceComponentParsingTask extends ComponentParsingTask {
 
                 element = element.nextElementSibling();
             }
-
 
         } catch (IOException e) {
             e.printStackTrace();

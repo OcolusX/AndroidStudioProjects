@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_add_configuration_button.xml" value="0.2265" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_bottom_nav_menu_community.xml" value="0.2265" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_bottom_nav_menu_configurations.xml" value="0.2265" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_community.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_configurations.xml" value="0.22826086956521738" />

@@ -1,7 +1,6 @@
 package com.configurator_pc.server.parser;
 
 import com.configurator_pc.server.model.*;
-import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,14 +8,7 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import javax.persistence.LockModeType;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +22,6 @@ public abstract class ComponentParsingTask implements Runnable {
     protected final List<ComponentOfStore> componentOfStores = new ArrayList<>();
     protected final List<Price> prices = new ArrayList<>();
 
-    protected final String url;           // Ссылка на страницу с компонентом
-    protected final int productId;        // id компонента в магазине
-
     // Используется для работы с БД
     private final static SessionFactory sessionFactory;
     static {
@@ -41,10 +30,8 @@ public abstract class ComponentParsingTask implements Runnable {
         sessionFactory = metadata.buildSessionFactory();
     }
 
-    public ComponentParsingTask(String url, int productId, int componentTypeId) {
+    public ComponentParsingTask(int componentTypeId) {
         this.component = new Component(componentTypeId, "");
-        this.url = url;
-        this.productId = productId;
     }
 
     @Override

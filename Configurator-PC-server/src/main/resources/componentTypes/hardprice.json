@@ -1,5 +1,5 @@
 {
-  "componentTypes": [
+  "component_types": [
     {
       "id": 1,
       "name": "motherboard",
@@ -12,7 +12,7 @@
     },
     {
       "id": 3,
-      "name": "CPU cooler",
+      "name": "cooler",
       "href": "https://hardprice.ru/category/cooler?full"
     },
     {

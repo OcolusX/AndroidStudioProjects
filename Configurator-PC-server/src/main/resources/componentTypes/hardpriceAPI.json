@@ -1,0 +1,49 @@
+{
+  "component_types": [
+    {
+      "id": 1,
+      "name": "motherboard",
+      "href": "https://hardprice.ru/media/data/c/mobo.json"
+    },
+    {
+      "id": 2,
+      "name": "CPU",
+      "href": "https://hardprice.ru/media/data/c/cpu.json"
+    },
+    {
+      "id": 3,
+      "name": "cooler",
+      "href": "https://hardprice.ru/media/data/c/cooler.json"
+    },
+    {
+      "id": 4,
+      "name": "graphics card",
+      "href": "https://hardprice.ru/media/data/c/videocard.json"
+    },
+    {
+      "id": 5,
+      "name": "RAM",
+      "href": "https://hardprice.ru/media/data/c/ram.json"
+    },
+    {
+      "id": 6,
+      "name": "HDD",
+      "href": "https://hardprice.ru/media/data/c/hdd.json"
+    },
+    {
+      "id": 7,
+      "name": "SSD",
+      "href": "https://hardprice.ru/media/data/c/ssd.json"
+    },
+    {
+      "id": 8,
+      "name": "case",
+      "href": "https://hardprice.ru/media/data/c/case.json"
+    },
+    {
+      "id": 9,
+      "name": "power supply",
+      "href": "https://hardprice.ru/media/data/c/psu.json"
+    }
+  ]
+}

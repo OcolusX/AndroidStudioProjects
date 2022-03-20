@@ -21,11 +21,13 @@ import java.util.Map;
 public abstract class Parser {
     private final Map<Integer, String> componentRefs = new HashMap<>();
 
+    protected static final String resourcesPath = "src/main/resources/";
+
     public Parser(String componentTypesJSON) {
-        try (FileReader reader = new FileReader(componentTypesJSON)) {
+        try (FileReader reader = new FileReader(resourcesPath + componentTypesJSON)) {
             JSONParser parser = new JSONParser();
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray componentTypes = (JSONArray) jsonObject.get("componentTypes");
+            JSONArray componentTypes = (JSONArray) jsonObject.get("component_types");
 
             StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
             Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
@@ -59,9 +61,10 @@ public abstract class Parser {
     }
 
     public void parse() {
-        for (int id : componentRefs.keySet()) {
-            parseList(id, componentRefs.get(id));
-        }
+//        for (int id : componentRefs.keySet()) {
+//            parseList(id, componentRefs.get(id));
+//        }
+        parseList(2, componentRefs.get(2));
     }
 
     protected abstract void parseList(int componentTypeId, String url);
