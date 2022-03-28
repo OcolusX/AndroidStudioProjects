@@ -24,4 +24,11 @@ public class ServerConnection {
 
         return null;
     }
+
+    // Возвращает общее количество компонентов из БД конкретного типа
+    public static int getTotalNumberComponents(ComponentType type) {
+        // TODO : должен возвращать общее количество компонентов конкретного типа
+
+        return 0;
+    }
 }
