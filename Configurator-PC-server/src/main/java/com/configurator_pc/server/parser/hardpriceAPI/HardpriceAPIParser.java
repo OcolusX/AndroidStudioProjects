@@ -36,6 +36,8 @@ public class HardpriceAPIParser extends Parser {
         try {
             String jsonString = Objects.requireNonNull(ParserThreadPool.connect(url)).ignoreContentType(true).execute().body();
             JSONArray array = (JSONArray) parser.parse(jsonString);
+
+
             for (Object object : array) {
                 JSONObject jsonObject = (JSONObject) object;
                 ComponentParsingTask parsingTask = new HardpriceAPIComponentParsingTask(
