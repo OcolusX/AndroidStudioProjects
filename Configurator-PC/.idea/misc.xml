@@ -3,16 +3,35 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.124" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_add_configuration_button.xml" value="0.2265" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_bottom_nav_menu_community.xml" value="0.2265" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_bottom_nav_menu_configurations.xml" value="0.2265" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_bottom_nav_menu_store.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_case.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_hdd.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_image.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_launcher_background.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_motherboard.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_power.xml" value="0.2265" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_power_supply.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_ram.xml" value="0.124" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/drawable/ic_ssd.xml" value="0.124" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/configuration_item.xml" value="0.1" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_community.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_configuration.xml" value="0.264" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_configuration_button.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_configurations.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_store.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_store.xml" value="0.28291814946619215" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/fragment_store_page.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/store_item.xml" value="0.264" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/store_nav_view.xml" value="0.264" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/store_nav_view_fragment.xml" value="0.4" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/store_page.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/layout/tab_item.xml" value="0.2825520833333333" />
         <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/menu/bottom_nav_menu.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/melch/AndroidStudioProjects/Configurator-PC/app/src/main/res/menu/store_nav_menu.xml" value="0.11302083333333333" />
       </map>
     </option>
   </component>

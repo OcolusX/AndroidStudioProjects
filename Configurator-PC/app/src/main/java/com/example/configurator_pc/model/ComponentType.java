@@ -1,13 +1,23 @@
 package com.example.configurator_pc.model;
 
 public enum ComponentType {
-    MOTHERBOARD,
-    CPU,
-    COOLER,
-    GRAPHICS_CARD,
-    RAM,
-    HDD,
-    SSD,
-    CASE,
-    POWER_SUPPLY
+    MOTHERBOARD(1),
+    CPU(2),
+    COOLER(3),
+    GRAPHICS_CARD(4),
+    RAM(5),
+    HDD(6),
+    SSD(7),
+    CASE(8),
+    POWER_SUPPLY(9);
+
+    private final int id;
+
+    ComponentType(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

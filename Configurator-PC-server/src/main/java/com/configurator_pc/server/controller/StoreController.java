@@ -17,7 +17,7 @@ public class StoreController {
     @Autowired
     private StoreRepository repository;
 
-    @GetMapping("/stores/")
+    @GetMapping("/stores")
     public List<Store> getAll() {
         Iterable<Store> stores = repository.findAll();
         List<Store> list = new ArrayList<>();
@@ -25,29 +25,14 @@ public class StoreController {
         return list;
     }
 
-    @GetMapping("/stores/{id}")
+    @GetMapping("/stores{id}")
     public ResponseEntity<Object> get(@PathVariable int id) {
         Optional<Store> optionalStore = repository.findById(id);
-        if (optionalStore.isPresent()) {
+        if (!optionalStore.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalStore.get(), HttpStatus.OK);
     }
 
-//    @PostMapping("/stores/")
-//    public int add(Store store) {
-//        int id = repository.save(store).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/stores/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/stores/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
 
 }

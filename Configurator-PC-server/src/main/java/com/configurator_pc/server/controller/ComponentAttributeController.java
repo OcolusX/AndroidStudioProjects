@@ -17,7 +17,7 @@ public class ComponentAttributeController {
     @Autowired
     private ComponentAttributeRepository repository;
 
-    @GetMapping("/component_attributes/")
+    @GetMapping("/component_attributes")
     public List<ComponentAttribute> getAll() {
         Iterable<ComponentAttribute> componentAttributes = repository.findAll();
         List<ComponentAttribute> list = new ArrayList<>();
@@ -25,28 +25,12 @@ public class ComponentAttributeController {
         return list;
     }
 
-    @GetMapping("/component_attributes/{id}")
-    public ResponseEntity<Object> get(@PathVariable int id) {
+    @GetMapping(value = "/component_attributes", params = "id")
+    public ResponseEntity<Object> getById(@RequestParam(value = "id") int id) {
         Optional<ComponentAttribute> optionalComponentAttribute = repository.findById(id);
-        if (optionalComponentAttribute.isPresent()) {
+        if (!optionalComponentAttribute.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalComponentAttribute.get(), HttpStatus.OK);
     }
-
-//    @PostMapping("/component_attributes/")
-//    public int add(ComponentAttribute componentAttribute) {
-//        int id = repository.save(componentAttribute).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/component_attributes/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/component_attributes/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
 }

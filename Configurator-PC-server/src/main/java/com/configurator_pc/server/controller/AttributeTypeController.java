@@ -17,7 +17,7 @@ public class AttributeTypeController {
     @Autowired
     private AttributeTypeRepository repository;
 
-    @GetMapping("/attribute_types/")
+    @GetMapping("/attribute_types")
     public List<AttributeType> getAll() {
         Iterable<AttributeType> attributeTypes = repository.findAll();
         List<AttributeType> list = new ArrayList<>();
@@ -25,29 +25,13 @@ public class AttributeTypeController {
         return list;
     }
 
-    @GetMapping("/attribute_types/{id}")
-    public ResponseEntity<Object> get(@PathVariable int id) {
+    @GetMapping(value = "/attribute_types", params = "id")
+    public ResponseEntity<Object> getById(@RequestParam(value = "id") int id) {
         Optional<AttributeType> optionalAttributeType = repository.findById(id);
-        if (optionalAttributeType.isPresent()) {
+        if (!optionalAttributeType.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalAttributeType.get(), HttpStatus.OK);
     }
-
-//    @PostMapping("/attribute_types/")
-//    public int add(AttributeType attributeType) {
-//        int id = repository.save(attributeType).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/attribute_types/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/attribute_types/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
 
 }

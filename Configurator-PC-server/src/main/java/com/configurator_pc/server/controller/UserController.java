@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
-    @GetMapping("/users/")
+    @GetMapping("/users")
     public List<User> getAll() {
         Iterable<User> users = repository.findAll();
         List<User> list = new ArrayList<>();
@@ -25,29 +25,29 @@ public class UserController {
         return list;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users{id}")
     public ResponseEntity<Object> get(@PathVariable int id) {
         Optional<User> optionalUser = repository.findById(id);
-        if (optionalUser.isPresent()) {
+        if (!optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalUser.get(), HttpStatus.OK);
     }
 
-//    @PostMapping("/users/")
-//    public int add(User user) {
-//        int id = repository.save(user).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/users/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/users/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
+    @PostMapping("/users")
+    public int add(User user) {
+        int id = repository.save(user).getId();
+        return id;
+    }
+
+    @DeleteMapping("/users")
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @DeleteMapping("/users{id}")
+    public void delete(@PathVariable int id) {
+        repository.deleteById(id);
+    }
 
 }

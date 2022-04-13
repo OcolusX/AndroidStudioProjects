@@ -1,7 +1,7 @@
 package com.example.configurator_pc.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class Configuration {
     private final int id;
@@ -13,7 +13,19 @@ public class Configuration {
         this.id = id;
         this.name = name;
         this.creator = creator;
-        this.componentList = new ArrayList<>(componentList);
+        this.componentList = componentList;
+    }
+
+    // Возвращает минимальную и максимальную суммы сборки через дефис
+    public String getTotalPrice() {
+        float minTotalPrice = 0f;
+        float maxTotalPrice = 0f;
+        for(Component component : componentList) {
+            TreeSet<Price> priceList = new TreeSet<>(component.getPriceList());
+            minTotalPrice += priceList.first().getPrice();
+            maxTotalPrice += priceList.last().getPrice();
+        }
+        return minTotalPrice + "-" + maxTotalPrice;
     }
 
     public int getId() {

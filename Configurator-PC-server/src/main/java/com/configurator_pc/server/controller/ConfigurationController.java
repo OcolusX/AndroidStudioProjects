@@ -16,7 +16,7 @@ public class ConfigurationController {
     @Autowired
     private ConfigurationRepository repository;
 
-    @GetMapping("/configurations/")
+    @GetMapping("/configurations")
     public List<Configuration> getAll() {
         Iterable<Configuration> configurations = repository.findAll();
         List<Configuration> list = new ArrayList<>();
@@ -24,29 +24,29 @@ public class ConfigurationController {
         return list;
     }
 
-    @GetMapping("/configurations/{id}")
+    @GetMapping("/configurations{id}")
     public ResponseEntity<Object> get(@PathVariable int id) {
         Optional<Configuration> optionalConfiguration = repository.findById(id);
-        if (optionalConfiguration.isPresent()) {
+        if (!optionalConfiguration.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalConfiguration.get(), HttpStatus.OK);
     }
 
-//    @PostMapping("/configurations/")
-//    public int add(Configuration configuration) {
-//        int id = repository.save(configuration).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/configurations/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/configurations/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
+    @PostMapping("/configurations")
+    public int add(Configuration configuration) {
+        int id = repository.save(configuration).getId();
+        return id;
+    }
+
+    @DeleteMapping("/configurations")
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @DeleteMapping("/configurations{id}")
+    public void delete(@PathVariable int id) {
+        repository.deleteById(id);
+    }
 
 }

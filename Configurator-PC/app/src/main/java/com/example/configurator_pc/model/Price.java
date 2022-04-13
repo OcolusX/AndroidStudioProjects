@@ -1,8 +1,12 @@
 package com.example.configurator_pc.model;
 
-import java.util.Date;
+import org.jetbrains.annotations.NotNull;
 
-public class Price {
+import java.util.Date;
+import java.util.Objects;
+import java.util.TreeSet;
+
+public class Price implements Comparable<Price>  {
     private final float price;
     private final Currency currency;
     private final String storeName;
@@ -35,5 +39,33 @@ public class Price {
 
     public Date getDate() {
         return date;
+    }
+
+    @Override
+    public int compareTo(Price o) {
+        if(o == null) {
+            throw new NullPointerException();
+        }
+        if(this == o) {
+            return 0;
+        }
+        int compare = Float.compare(this.price, o.price);
+        if (compare != 0) {
+            return compare;
+        }
+        return this.storeName.compareTo(o.storeName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Price price = (Price) o;
+        return Float.compare(price.price, this.price) == 0 && Objects.equals(url, price.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(price, url);
     }
 }

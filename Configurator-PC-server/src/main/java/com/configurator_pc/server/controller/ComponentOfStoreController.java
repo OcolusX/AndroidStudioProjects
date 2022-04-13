@@ -17,7 +17,7 @@ public class ComponentOfStoreController {
     @Autowired
     private ComponentOfStoreRepository repository;
 
-    @GetMapping("/component_of_store/")
+    @GetMapping("/component_of_store")
     public List<ComponentOfStore> getAll() {
         Iterable<ComponentOfStore> componentOfStores = repository.findAll();
         List<ComponentOfStore> list = new ArrayList<>();
@@ -25,29 +25,13 @@ public class ComponentOfStoreController {
         return list;
     }
 
-    @GetMapping("/component_of_store/{id}")
+    @GetMapping("/component_of_store{id}")
     public ResponseEntity<Object> get(@PathVariable int id) {
         Optional<ComponentOfStore> optionalComponentOfStore = repository.findById(id);
-        if (optionalComponentOfStore.isPresent()) {
+        if (!optionalComponentOfStore.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalComponentOfStore.get(), HttpStatus.OK);
     }
-
-//    @PostMapping("/component_of_store/")
-//    public int add(ComponentOfStore componentOfStore) {
-//        int id = repository.save(componentOfStore).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/component_of_store/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/component_of_store/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
 
 }

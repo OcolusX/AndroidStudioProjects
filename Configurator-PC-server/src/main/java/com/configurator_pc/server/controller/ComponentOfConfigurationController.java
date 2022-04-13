@@ -17,7 +17,7 @@ public class ComponentOfConfigurationController {
     @Autowired
     private ComponentOfConfigurationRepository repository;
 
-    @GetMapping("/component_of_configuration/")
+    @GetMapping("/component_of_configuration")
     public List<ComponentOfConfiguration> getAll() {
         Iterable<ComponentOfConfiguration> componentOfConfigurations = repository.findAll();
         List<ComponentOfConfiguration> list = new ArrayList<>();
@@ -25,29 +25,29 @@ public class ComponentOfConfigurationController {
         return list;
     }
 
-    @GetMapping("/component_of_configuration/{id}")
+    @GetMapping("/component_of_configuration{id}")
     public ResponseEntity<Object> get(@PathVariable int id) {
         Optional<ComponentOfConfiguration> optionalComponentOfConfiguration = repository.findById(id);
-        if (optionalComponentOfConfiguration.isPresent()) {
+        if (!optionalComponentOfConfiguration.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalComponentOfConfiguration.get(), HttpStatus.OK);
     }
 
-//    @PostMapping("/component_of_configuration/")
-//    public int add(ComponentOfConfiguration componentOfConfiguration) {
-//        int id = repository.save(componentOfConfiguration).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/component_of_configuration/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/component_of_configuration/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
+    @PostMapping("/component_of_configuration")
+    public int add(ComponentOfConfiguration componentOfConfiguration) {
+        int id = repository.save(componentOfConfiguration).getId();
+        return id;
+    }
+
+    @DeleteMapping("/component_of_configuration")
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @DeleteMapping("/component_of_configuration{id}")
+    public void delete(@PathVariable int id) {
+        repository.deleteById(id);
+    }
 
 }

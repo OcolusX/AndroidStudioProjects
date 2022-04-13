@@ -17,7 +17,7 @@ public class CurrencyController {
     @Autowired
     private CurrencyRepository repository;
 
-    @GetMapping("/currency/")
+    @GetMapping("/currency")
     public List<Currency> getAll() {
         Iterable<Currency> currencies = repository.findAll();
         List<Currency> list = new ArrayList<>();
@@ -25,29 +25,13 @@ public class CurrencyController {
         return list;
     }
 
-    @GetMapping("/currency/{id}")
+    @GetMapping("/currency{id}")
     public ResponseEntity<Object> get(@PathVariable int id) {
         Optional<Currency> optionalCurrency = repository.findById(id);
-        if (optionalCurrency.isPresent()) {
+        if (!optionalCurrency.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity<>(optionalCurrency.get(), HttpStatus.OK);
     }
-
-//    @PostMapping("/currency/")
-//    public int add(Currency currency) {
-//        int id = repository.save(currency).getId();
-//        return id;
-//    }
-//
-//    @DeleteMapping("/currency/")
-//    public void deleteAll() {
-//        repository.deleteAll();
-//    }
-//
-//    @DeleteMapping("/currency/{id}")
-//    public void delete(@PathVariable int id) {
-//        repository.deleteById(id);
-//    }
 
 }
