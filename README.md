@@ -1,4 +1,4 @@
-# AndroidStudioProjects
+# Configurator-PC
 
 ![PByiXrKgA1o](https://user-images.githubusercontent.com/90719002/163202369-fb22c168-03a0-4d5a-9608-ff7145630026.jpg)
 
