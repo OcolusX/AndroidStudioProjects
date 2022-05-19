@@ -1,6 +1,7 @@
 package com.configurator_pc.server.parser;
 
 import com.configurator_pc.server.model.ComponentType;
+import com.configurator_pc.server.repository.ComponentTypeRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,15 +13,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerProxy;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public abstract class Parser {
-    private final Map<Integer, String> componentRefs = new HashMap<>();
 
+    private final Map<Integer, String> componentRefs = new HashMap<>();
     protected static final String resourcesPath = "src/main/resources/";
 
     public Parser(String componentTypesJSON) {
@@ -61,10 +67,9 @@ public abstract class Parser {
     }
 
     public void parse() {
-//        for (int id : componentRefs.keySet()) {
-//            parseList(id, componentRefs.get(id));
-//        }
-        parseList(2, componentRefs.get(2));
+        for (int id : componentRefs.keySet()) {
+            parseList(id, componentRefs.get(id));
+        }
     }
 
     protected abstract void parseList(int componentTypeId, String url);

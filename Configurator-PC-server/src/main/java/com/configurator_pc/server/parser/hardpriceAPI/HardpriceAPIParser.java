@@ -1,6 +1,8 @@
 package com.configurator_pc.server.parser.hardpriceAPI;
 
 import com.configurator_pc.server.model.AttributeType;
+import com.configurator_pc.server.model.Price;
+import com.configurator_pc.server.model.Store;
 import com.configurator_pc.server.parser.ComponentParsingTask;
 import com.configurator_pc.server.parser.Parser;
 import com.configurator_pc.server.parser.ParserThreadPool;
@@ -16,10 +18,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class HardpriceAPIParser extends Parser {
 
@@ -37,15 +38,16 @@ public class HardpriceAPIParser extends Parser {
             String jsonString = Objects.requireNonNull(ParserThreadPool.connect(url)).ignoreContentType(true).execute().body();
             JSONArray array = (JSONArray) parser.parse(jsonString);
 
-
             for (Object object : array) {
                 JSONObject jsonObject = (JSONObject) object;
                 ComponentParsingTask parsingTask = new HardpriceAPIComponentParsingTask(
                         "https://hardprice.ru" + jsonObject.get("url"),
                         componentTypeId,
-                        (String) jsonObject.get("vendor_name")
+                        (String) jsonObject.get("vendor_name"),
+                        (String) jsonObject.get("image"),
+                        (String) jsonObject.get("description")
                 );
-                ParserThreadPool.parse(parsingTask);
+                parsingTask.run();
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();

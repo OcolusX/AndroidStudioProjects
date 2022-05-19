@@ -18,27 +18,10 @@ public class Component {
 
     private String name;
 
+    private String image;
 
-    public Component() {
-    }
+    private String description;
 
-    public Component(int typeId, String name) {
-        this.typeId = typeId;
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Component component = (Component) o;
-        return typeId == component.typeId && Objects.equals(name, component.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, typeId, name);
-    }
 
     public int getId() {
         return id;
@@ -62,5 +45,44 @@ public class Component {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Component() {
+    }
+
+    public Component(int typeId, String name, String image, String description) {
+        this.typeId = typeId;
+        this.name = name;
+        this.image = image;
+        this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Component component = (Component) o;
+        return typeId == component.typeId && Objects.equals(name, component.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, typeId, name);
     }
 }

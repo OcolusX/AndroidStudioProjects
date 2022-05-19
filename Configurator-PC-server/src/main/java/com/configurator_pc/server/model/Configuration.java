@@ -11,8 +11,6 @@ public class Configuration {
 
     private String name;
 
-    @Column(name = "total_price")
-    private double totalPrice;
 
     @Column(name = "creator_id")
     private int creatorId;
@@ -20,9 +18,8 @@ public class Configuration {
     public Configuration() {
     }
 
-    public Configuration(String name, double totalPrice, int creatorId) {
+    public Configuration(String name, int creatorId) {
         this.name = name;
-        this.totalPrice = totalPrice;
         this.creatorId = creatorId;
     }
 
@@ -40,14 +37,6 @@ public class Configuration {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public int getCreatorId() {
